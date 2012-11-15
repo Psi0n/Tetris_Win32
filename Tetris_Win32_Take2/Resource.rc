@@ -1,0 +1,8 @@
+#include "resource.h"
+
+IDI_TETRIS ICON "Tetris2.ico"
+IDI_TETRISMINI ICON "Tetris2.ico"
+
+IDB_LOCKEDBLOCK BITMAP "LockedBlock.bmp"
+IDB_TETROBLOCK BITMAP "TetroBlock.bmp"
+IDB_BACK BITMAP "Back.bmp"
