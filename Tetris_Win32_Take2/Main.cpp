@@ -44,6 +44,7 @@ COLORREF clrBlack = RGB(0, 0, 0);
 UINT timer_id = 0;
 BOOL bQuit = FALSE;
 
+//broken file output stuff from a debugging attempt
 //ofstream outFile;
 //outFile.open("testData.txt", ios::app);
 //FILE * pFile = &outFile;
@@ -51,7 +52,7 @@ BOOL bQuit = FALSE;
 int scoreNum, linesNum, levelNum = 0;
 int * pScore = &scoreNum;
 int * pLines = &linesNum;
-int * pLevel = &linesNum;
+int * pLevel = &levelNum;
 
 GRID grid;
 GRID * pGrid = &grid;
@@ -65,12 +66,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				   LPSTR lpCmdLine, int nCmdShow)
 {
+	//GDI stuff
 	GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	hBrush = CreateSolidBrush(clrBlack);
 
+	//creating window
 	WNDCLASSEX wcex;
 
 	wcex.cbSize =  sizeof(WNDCLASSEX);
@@ -103,6 +106,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		return 1;
 	}
 
+	//console
 	AllocConsole();
 
     HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -117,6 +121,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     setvbuf(hf_in, NULL, _IONBF, 128);
     *stdin = *hf_in;
 	
+	//and now the actual program
 	time_t now;
 	time(&now);
 	srand(now);
@@ -201,6 +206,7 @@ void OnPaint(HWND hWnd, HDC hdc){
 		SetTextColor(MemDC, clrGray);
 		SetBkColor(MemDC, clrBlack);
 
+		//still need to add numbers under these three
 		TextOut(MemDC, 448,  32, scoreText, _tcslen(scoreText));
 		TextOut(MemDC, 448, 128, levelText, _tcslen(levelText));
 		TextOut(MemDC, 448, 224, linesText, _tcslen(linesText));

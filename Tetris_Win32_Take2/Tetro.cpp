@@ -170,7 +170,7 @@ void TETRO::reset(GRID * grid)
 			m_x3 = 15;
 				break;
 			}
-		/grid->m_grid[m_x1][m_y1] = '1';
+		grid->m_grid[m_x1][m_y1] = '1';
 		grid->m_grid[m_x2][m_y2] = '1';
 		grid->m_grid[m_x3][m_y3] = '1';
 		grid->m_grid[m_x4][m_y4] = '1';
