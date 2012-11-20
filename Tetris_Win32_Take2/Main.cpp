@@ -144,7 +144,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	return 0;
 }
 
-	void OnPaint(HWND hWnd, HDC hdc){
+void OnPaint(HWND hWnd, HDC hdc){
 
 	cout << "begin paint\n";
 	tetro.printStats();

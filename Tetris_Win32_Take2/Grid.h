@@ -3,10 +3,13 @@
 #define GRID_H
 //#include <cstring>
 #include <fstream>
+#define GRID_WIDTH 18
+#define GRID_HEIGHT 22
+
 class GRID
 {
 public:
-	char m_grid[17][22];
+	char m_grid[GRID_WIDTH][GRID_HEIGHT];
 	GRID(void);
 	string rowGet(int rowNum);
 	void rowClear (int rowNum, int * score, int * lines, int * level);

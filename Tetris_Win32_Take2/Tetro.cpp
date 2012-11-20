@@ -10,12 +10,12 @@
 using namespace std;
 
 #include "Tetro.h"
-
-TETRO::TETRO(GRID * grid)	//selects random tetro type for new piece
+//constructor
+TETRO::TETRO(GRID * grid)
 {
 	cout << "constructing tetro\n";
-	int typeNum = ((rand() % 7) + 1);
-	switch(typeNum)
+	int typeNum = ((rand() % 7) + 1); //selects random type for new tetro
+	switch(typeNum) //generates tetro at bottom of stack in right of screen
 	{
 		case 1:
 			{
@@ -94,6 +94,7 @@ TETRO::TETRO(GRID * grid)	//selects random tetro type for new piece
 	m_rot = 1;
 	cout << "construction complete\n";
 }
+//re-constructs tetro. may be discarded in future updates
 void TETRO::reset(GRID * grid)
 {
 	cout << "begin reset\n";
@@ -169,17 +170,20 @@ void TETRO::reset(GRID * grid)
 			m_x3 = 15;
 				break;
 			}
-		/*grid->m_grid[m_x1][m_y1] = '1';
+		/grid->m_grid[m_x1][m_y1] = '1';
 		grid->m_grid[m_x2][m_y2] = '1';
 		grid->m_grid[m_x3][m_y3] = '1';
-		grid->m_grid[m_x4][m_y4] = '1';*/
+		grid->m_grid[m_x4][m_y4] = '1';
 	}
 	m_rot =1;
 	cout << "reset successful\n";
 	printStats();
-	////grid->writeGrid(pFile);
+	//grid->writeGrid(pFile);
 }
-void TETRO::dropIn(GRID * grid, TETRO * spare1, TETRO * spare2, TETRO * spare3)	//places tetro on grid
+//leftover from early attempt at keeping
+//a rotating 'stack' of predetermined tetros.
+//currently unused. needs major revision before implementation.
+void TETRO::dropIn(GRID * grid, TETRO * spare1, TETRO * spare2, TETRO * spare3)
 {
 	if (spare1->m_y1 > spare2->m_y1 && spare1->m_y1 > spare3->m_y1)
 	{
@@ -282,7 +286,8 @@ switch(m_type)
 	grid->m_grid[m_x3][m_y3] = '1';
 	grid->m_grid[m_x4][m_y4] = '1';
 }
-
+//current function for placing lone
+//tetro in the top rows of the grid.
 void TETRO::dropIn2(GRID * grid)
 {
 	cout << "begin dropIn2\n";
@@ -365,7 +370,9 @@ void TETRO::dropIn2(GRID * grid)
 	printStats();
 	//grid->writeGrid(pFile);
 }
-void TETRO::rotateLeft(GRID * grid)	//Rotates tetro
+//should rotate tetro counterclockwise,
+//but no guarantees at the moment.
+void TETRO::rotateLeft(GRID * grid)
 {
 	cout << "begin rotateLeft\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -677,9 +684,12 @@ void TETRO::rotateLeft(GRID * grid)	//Rotates tetro
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "rotateLeft successful\n";
 	printStats();
-	////grid->writeGrid(pFile);
+	//grid->writeGrid(pFile);
 }
-void TETRO::rotateRight(GRID * grid)	//Rotates tetro the other way
+//similar to above.
+//should rotate clockwise.
+//nothing guaranteed at the moment.
+void TETRO::rotateRight(GRID * grid)	
 {
 	cout << "begin rotateRight\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -935,7 +945,6 @@ void TETRO::rotateRight(GRID * grid)	//Rotates tetro the other way
 				break;}
 		case 'O':
 			{//This tetro remains in the same position regardless of rotation.
-			 //It's a freaking square, for crying out loud.
 				break;}
 		case 'T':
 			{
@@ -993,8 +1002,10 @@ void TETRO::rotateRight(GRID * grid)	//Rotates tetro the other way
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "rotateRight successful\n";
 	//writeStats();
-	////grid->writeGrid(pFile);
+	//grid->writeGrid(pFile);
 }
+//shifts tetro down one row in the grid.
+//if movement down is impossible, triggers lockIn.
 void TETRO::moveDown(GRID * grid, int * score, int * lines, int * level)		//Moves tetro down one row
 {
 	cout << "begin moveDown\n";
@@ -1027,8 +1038,11 @@ void TETRO::moveDown(GRID * grid, int * score, int * lines, int * level)		//Move
 	}
 	cout << "moveDown successful\n";
 	//writeStats();
-	////grid->writeGrid(pFile);
+	//grid->writeGrid(pFile);
 }
+//shifts tetro one column left in the grid, if possible.
+//checks for collisions with old blocks and 
+//edge of playing field.
 void TETRO::moveLeft(GRID * grid)		//Moves tetro left one column
 {
 	cout << "begin moveLeft\n";
@@ -1054,8 +1068,11 @@ void TETRO::moveLeft(GRID * grid)		//Moves tetro left one column
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "moveLeft successful\n";
 	//writeStats();
-	////grid->writeGrid(pFile);
+	//grid->writeGrid(pFile);
 }
+//shifts tetro one column right in the grid.
+//checks for collisions with old blocks and 
+//edge of playing field.
 void TETRO::moveRight(GRID * grid)		//Moves tetro right one column
 {
 	cout << "begin moveRight\n";
@@ -1081,9 +1098,11 @@ void TETRO::moveRight(GRID * grid)		//Moves tetro right one column
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "moveRight successful\n";
 	//writeStats();
-	////grid->writeGrid(pFile);
+	//grid->writeGrid(pFile);
 }
-void TETRO::slamDown(GRID * grid, int * score, int * lines, int * level)		//Sends tetro to bottom and locks in
+//drops tetro down in the grid until it hits something.
+//activates lockIn function.
+void TETRO::slamDown(GRID * grid, int * score, int * lines, int * level)
 {
 	cout << "begin slamDown\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1105,11 +1124,14 @@ void TETRO::slamDown(GRID * grid, int * score, int * lines, int * level)		//Send
 	
 	cout << "slamDown successful\n";
 	//writeStats();
-	////grid->writeGrid(pFile);
+	//grid->writeGrid(pFile);
 	lockIn(grid, score, lines, level);
 	reset(grid);
 	dropIn2(grid);
 }
+//changes grid array at tetro's currentr position(s).
+//these spots will be treated like the edge
+//of the playing field
 void TETRO::lockIn(GRID * grid, int * score, int * lines, int * level)			//Locks the tetro in place when it can't move any further down.
 {
 	cout << "begin lockIn\n";
@@ -1130,6 +1152,8 @@ void TETRO::lockIn(GRID * grid, int * score, int * lines, int * level)			//Locks
 	printStats();
 	////grid->writeGrid(pFile);
 }
+//leftover function, meant to be used by dropIn.
+//debugging console output added by mistake
 void TETRO::shiftUp(void)
 {
 	cout << "begin shiftUp\n";
@@ -1140,7 +1164,7 @@ void TETRO::shiftUp(void)
 	cout << "shiftUp successful\n";
 	//writeStats();
 }
-
+//outputs current coordinates of tetro to console.
 void TETRO::printStats(void)
 {
 	cout << "Current Position:\n";
@@ -1149,6 +1173,8 @@ void TETRO::printStats(void)
 	cout << "Block 3: " << m_x3 << ", " << m_y3 <<"\n";
 	cout << "Block 4: " << m_x4 << ", " << m_y4 <<"\n";
 }
+//supposed to write current coordinates
+//to a file. currently busted.
 /*void TETRO::writeStats(FILE * pFile)
 {
 	cout << "Current Position:\n";

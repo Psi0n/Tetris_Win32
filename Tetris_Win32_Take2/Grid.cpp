@@ -8,16 +8,20 @@ using namespace std;
 
 #include "Grid.h"
 
+
+//constructor
 GRID::GRID(void)
 {
-	for (int x = 0; x < 17; x++)
+	for (int x = 0; x < GRID_WIDTH; x++)
 	{
-		for (int y = 0; y < 22; y++)
+		for (int y = 0; y < GRID_HEIGHT; y++)
 		{
 			m_grid[x][y] = '=';
 		}
 	}
 }
+
+//outputs a single row of the grid
 string GRID::rowGet(int rowNum)
 {
 	string row = "";
@@ -27,6 +31,8 @@ string GRID::rowGet(int rowNum)
 	}
 	return row;
 }
+//clears a given row of the grid,
+//then triggers rowShift
 void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 {
 	for (int i = 0; i < 10; i++)
@@ -44,6 +50,8 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 	if (levelTest == 0)
 		{*level += 1;}
 }
+//moves everything above a certain level
+//down a row
 void GRID::rowShift (int rowNum)
 {
 	for (int j = rowNum; j < 10; j++)
@@ -56,6 +64,8 @@ void GRID::rowShift (int rowNum)
 	}
 }
 
+//scans top row of grid to determine if player has lost
+//8 of the '=' character means a clear row
 bool GRID::lossCheck(void)
 {
 	string row21 = rowGet(21);
@@ -64,7 +74,9 @@ bool GRID::lossCheck(void)
 	else
 		{return false;}
 }
-
+//prints the grid array to console.
+//not reccommended.
+//will probably delete later.
 void GRID::printGrid(void)
 {
 	string rowGot;
@@ -74,7 +86,8 @@ void GRID::printGrid(void)
 		cout << rowGot << endl;
 	}
 }
-
+//supposed to write grid array to a file.
+//currently broken
 /*void GRID::writeGrid(FILE * pFile)
 {
 	string rowGot;
