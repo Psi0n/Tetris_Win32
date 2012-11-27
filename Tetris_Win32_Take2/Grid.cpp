@@ -75,7 +75,7 @@ bool GRID::lossCheck(void)
 		{return false;}
 }
 //prints the grid array to console.
-//not reccommended.
+//not recommended for use.
 //will probably delete later.
 void GRID::printGrid(void)
 {
@@ -86,14 +86,13 @@ void GRID::printGrid(void)
 		cout << rowGot << endl;
 	}
 }
-//supposed to write grid array to a file.
-//currently broken
-/*void GRID::writeGrid(FILE * pFile)
+//write grid array to a file.
+void GRID::writeGrid(ofstream& outFile)
 {
 	string rowGot;
 	for (int i = 0; i < 23; i++)
 	{
 		rowGot = rowGet(i);
-		pFile << rowGot << "\n";
+		outFile << rowGot << "\n";
 	}
-}*/
+}

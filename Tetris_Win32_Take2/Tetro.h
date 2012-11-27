@@ -27,18 +27,18 @@ private:
 	char m_type;
 public:
 	TETRO(GRID * grid);
-	void reset(GRID * grid);
+	void reset(ofstream& outFile, GRID * grid);
 	void dropIn(GRID * grid, TETRO * spare1, TETRO * spare2, TETRO * spare3);	//not currently used
-	void dropIn2(GRID * grid);
-	void rotateLeft(GRID * grid);
-	void rotateRight(GRID * grid);
-	void moveDown(GRID * grid, int * score, int * lines, int * level);
-	void moveLeft(GRID * grid);
-	void moveRight(GRID * grid);
-	void slamDown(GRID * grid, int * score, int * lines, int * level);
-	void lockIn(GRID * grid, int * score, int * lines, int * level);
+	void dropIn2(ofstream& outFile, GRID * grid);
+	void rotateLeft(ofstream& outFile, GRID * grid);
+	void rotateRight(ofstream& outFile, GRID * grid);
+	void moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level);
+	void moveLeft(ofstream& outFile, GRID * grid);
+	void moveRight(ofstream& outFile, GRID * grid);
+	void slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level);
+	void lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level);
 	void shiftUp(void);															//not currently used
 	void printStats(void);
-	//void writeStats(FILE * pFile);
+	void writeStats(ofstream& outFile);
 };
 #endif

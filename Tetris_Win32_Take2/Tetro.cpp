@@ -95,7 +95,7 @@ TETRO::TETRO(GRID * grid)
 	cout << "construction complete\n";
 }
 //re-constructs tetro. may be discarded in future updates
-void TETRO::reset(GRID * grid)
+void TETRO::reset(ofstream& outFile, GRID * grid)
 {
 	cout << "begin reset\n";
 	int typeNum = ((rand() % 7) + 1);
@@ -178,17 +178,17 @@ void TETRO::reset(GRID * grid)
 	m_rot =1;
 	cout << "reset successful\n";
 	printStats();
-	//grid->writeGrid(pFile);
+	grid->writeGrid(outFile);
 }
 //leftover from early attempt at keeping
 //a rotating 'stack' of predetermined tetros.
 //currently unused. needs major revision before implementation.
-void TETRO::dropIn(GRID * grid, TETRO * spare1, TETRO * spare2, TETRO * spare3)
+/*void TETRO::dropIn(GRID * grid, TETRO * spare1, TETRO * spare2, TETRO * spare3)
 {
 	if (spare1->m_y1 > spare2->m_y1 && spare1->m_y1 > spare3->m_y1)
 	{
 		m_type = spare1->m_type;
-		spare1->reset(grid);
+		spare1->reset(outFile, grid);
 		spare2->m_y1 +=3;
 		spare2->m_y2 +=3;
 		spare2->m_y3 +=3;
@@ -201,7 +201,7 @@ void TETRO::dropIn(GRID * grid, TETRO * spare1, TETRO * spare2, TETRO * spare3)
 	if (spare2->m_y1 > spare1->m_y1 && spare2->m_y1 > spare3->m_y1)
 	{
 		m_type = spare2->m_type;
-		spare2->reset(grid);
+		spare2->reset(outFile, grid);
 		spare1->m_y1 +=3;
 		spare1->m_y2 +=3;
 		spare1->m_y3 +=3;
@@ -214,7 +214,7 @@ void TETRO::dropIn(GRID * grid, TETRO * spare1, TETRO * spare2, TETRO * spare3)
 	if (spare3->m_y1 > spare1->m_y1 && spare3->m_y1 > spare2->m_y1)
 	{
 		m_type = spare3->m_type;
-		spare3->reset(grid);
+		spare3->reset(outFile, grid);
 		spare1->m_y1 +=3;
 		spare1->m_y2 +=3;
 		spare1->m_y3 +=3;
@@ -285,10 +285,10 @@ switch(m_type)
 	grid->m_grid[m_x2][m_y2] = '1';
 	grid->m_grid[m_x3][m_y3] = '1';
 	grid->m_grid[m_x4][m_y4] = '1';
-}
+}*/
 //current function for placing lone
 //tetro in the top rows of the grid.
-void TETRO::dropIn2(GRID * grid)
+void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 {
 	cout << "begin dropIn2\n";
 	switch(m_type)
@@ -368,11 +368,11 @@ void TETRO::dropIn2(GRID * grid)
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "dropIn2 successful\n";
 	printStats();
-	//grid->writeGrid(pFile);
+	grid->writeGrid(outFile);
 }
 //should rotate tetro counterclockwise,
 //but no guarantees at the moment.
-void TETRO::rotateLeft(GRID * grid)
+void TETRO::rotateLeft(ofstream& outFile, GRID * grid)
 {
 	cout << "begin rotateLeft\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -684,12 +684,12 @@ void TETRO::rotateLeft(GRID * grid)
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "rotateLeft successful\n";
 	printStats();
-	//grid->writeGrid(pFile);
+	grid->writeGrid(outFile);
 }
 //similar to above.
 //should rotate clockwise.
 //nothing guaranteed at the moment.
-void TETRO::rotateRight(GRID * grid)	
+void TETRO::rotateRight(ofstream& outFile, GRID * grid)	
 {
 	cout << "begin rotateRight\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1001,12 +1001,12 @@ void TETRO::rotateRight(GRID * grid)
 	grid->m_grid[m_x3][m_y3] = '1';
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "rotateRight successful\n";
-	//writeStats();
-	//grid->writeGrid(pFile);
+	writeStats(outFile);
+	grid->writeGrid(outFile);
 }
 //shifts tetro down one row in the grid.
 //if movement down is impossible, triggers lockIn.
-void TETRO::moveDown(GRID * grid, int * score, int * lines, int * level)		//Moves tetro down one row
+void TETRO::moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)		//Moves tetro down one row
 {
 	cout << "begin moveDown\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1032,18 +1032,18 @@ void TETRO::moveDown(GRID * grid, int * score, int * lines, int * level)		//Move
 	else
 	{
 		//cout << "moveDown successful";
-		lockIn(grid, score, lines, level);
-		reset(grid);
-		dropIn2(grid);
+		lockIn(outFile, grid, score, lines, level);
+		reset(outFile, grid);
+		dropIn2(outFile, grid);
 	}
 	cout << "moveDown successful\n";
-	//writeStats();
-	//grid->writeGrid(pFile);
+	writeStats(outFile);
+	grid->writeGrid(outFile);
 }
 //shifts tetro one column left in the grid, if possible.
 //checks for collisions with old blocks and 
 //edge of playing field.
-void TETRO::moveLeft(GRID * grid)		//Moves tetro left one column
+void TETRO::moveLeft(ofstream& outFile, GRID * grid)		//Moves tetro left one column
 {
 	cout << "begin moveLeft\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1067,13 +1067,13 @@ void TETRO::moveLeft(GRID * grid)		//Moves tetro left one column
 	grid->m_grid[m_x3][m_y3] = '1';
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "moveLeft successful\n";
-	//writeStats();
-	//grid->writeGrid(pFile);
+	writeStats(outFile);
+	grid->writeGrid(outFile);
 }
 //shifts tetro one column right in the grid.
 //checks for collisions with old blocks and 
 //edge of playing field.
-void TETRO::moveRight(GRID * grid)		//Moves tetro right one column
+void TETRO::moveRight(ofstream& outFile, GRID * grid)		//Moves tetro right one column
 {
 	cout << "begin moveRight\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1097,12 +1097,12 @@ void TETRO::moveRight(GRID * grid)		//Moves tetro right one column
 	grid->m_grid[m_x3][m_y3] = '1';
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "moveRight successful\n";
-	//writeStats();
-	//grid->writeGrid(pFile);
+	writeStats(outFile);
+	grid->writeGrid(outFile);
 }
 //drops tetro down in the grid until it hits something.
 //activates lockIn function.
-void TETRO::slamDown(GRID * grid, int * score, int * lines, int * level)
+void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)
 {
 	cout << "begin slamDown\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1123,16 +1123,16 @@ void TETRO::slamDown(GRID * grid, int * score, int * lines, int * level)
 	}
 	
 	cout << "slamDown successful\n";
-	//writeStats();
-	//grid->writeGrid(pFile);
-	lockIn(grid, score, lines, level);
-	reset(grid);
-	dropIn2(grid);
+	writeStats(outFile);
+	grid->writeGrid(outFile);
+	lockIn(outFile, grid, score, lines, level);
+	reset(outFile, grid);
+	dropIn2(outFile, grid);
 }
 //changes grid array at tetro's currentr position(s).
 //these spots will be treated like the edge
 //of the playing field
-void TETRO::lockIn(GRID * grid, int * score, int * lines, int * level)			//Locks the tetro in place when it can't move any further down.
+void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)			//Locks the tetro in place when it can't move any further down.
 {
 	cout << "begin lockIn\n";
 	grid->m_grid[m_x1][m_y1] = '8';
@@ -1150,11 +1150,10 @@ void TETRO::lockIn(GRID * grid, int * score, int * lines, int * level)			//Locks
 	}
 	cout << "lockIn successful\n";
 	printStats();
-	////grid->writeGrid(pFile);
+	grid->writeGrid(outFile);
 }
 //leftover function, meant to be used by dropIn.
-//debugging console output added by mistake
-void TETRO::shiftUp(void)
+/*void TETRO::shiftUp(void)
 {
 	cout << "begin shiftUp\n";
 	m_y1 +=3;
@@ -1162,8 +1161,7 @@ void TETRO::shiftUp(void)
 	m_y3 +=3;
 	m_y4 +=3;
 	cout << "shiftUp successful\n";
-	//writeStats();
-}
+}*/
 //outputs current coordinates of tetro to console.
 void TETRO::printStats(void)
 {
@@ -1173,13 +1171,12 @@ void TETRO::printStats(void)
 	cout << "Block 3: " << m_x3 << ", " << m_y3 <<"\n";
 	cout << "Block 4: " << m_x4 << ", " << m_y4 <<"\n";
 }
-//supposed to write current coordinates
-//to a file. currently busted.
-/*void TETRO::writeStats(FILE * pFile)
+//supposed to write current coordinates to a file.
+void TETRO::writeStats(ofstream& outFile)
 {
 	cout << "Current Position:\n";
 	cout << "Block 1: " << m_x1 << ", " << m_y1 <<"\n";
 	cout << "Block 2: " << m_x2 << ", " << m_y2 <<"\n";
 	cout << "Block 3: " << m_x3 << ", " << m_y3 <<"\n";
 	cout << "Block 4: " << m_x4 << ", " << m_y4 <<"\n";
-}*/
+}

@@ -19,7 +19,7 @@
 */
 #ifndef GRID_H
 #define GRID_H
-//#include <cstring>
+#include <cstring>
 #include <fstream>
 #define GRID_WIDTH 18
 #define GRID_HEIGHT 22
@@ -34,6 +34,6 @@ public:
 	void rowShift (int rowNum);
 	bool lossCheck (void);
 	void printGrid (void);
-	//void writeGrid (FILE * pFile);
+	void writeGrid (ofstream& outFile);
 };
 #endif

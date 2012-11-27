@@ -44,10 +44,7 @@ COLORREF clrBlack = RGB(0, 0, 0);
 UINT timer_id = 0;
 BOOL bQuit = FALSE;
 
-//broken file output stuff from a debugging attempt
-//ofstream outFile;
-//outFile.open("testData.txt", ios::app);
-//FILE * pFile = &outFile;
+ofstream outFile;
 
 int scoreNum, linesNum, levelNum = 0;
 int * pScore = &scoreNum;
@@ -132,7 +129,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	UpdateWindow(hWnd);
 
 	MSG msg;
-	tetro.dropIn2(pGrid);
+	tetro.dropIn2(outFile, pGrid);
 	
 	while (!bQuit)
 	{
@@ -229,7 +226,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch(message)
 	{
 	case WM_TIMER:
-		tetro.moveDown(pGrid, pScore, pLines, pLevel);
+		tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_KEYDOWN:
@@ -237,27 +234,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case VK_NUMPAD1:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.moveLeft(pGrid);
+			tetro.moveLeft(outFile, pGrid);
 			break;
 		case VK_NUMPAD2:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.moveDown(pGrid, pScore, pLines, pLevel);
+			tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel);
 			break;
 		case VK_NUMPAD3:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.moveRight(pGrid);
+			tetro.moveRight(outFile, pGrid);
 			break;
 		case VK_NUMPAD4:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.rotateLeft(pGrid);
+			tetro.rotateLeft(outFile, pGrid);
 			break;
 		case VK_NUMPAD5:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.slamDown(pGrid, pScore, pLines, pLevel);
+			tetro.slamDown(outFile, pGrid, pScore, pLines, pLevel);
 			break;
 		case VK_NUMPAD6:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.rotateRight(pGrid);
+			tetro.rotateRight(outFile, pGrid);
 			break;
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
