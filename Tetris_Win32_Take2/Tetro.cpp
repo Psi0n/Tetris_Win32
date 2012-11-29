@@ -295,7 +295,7 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 	{
 	case '|':
 		{
-		m_y1 = m_y2 = m_y3 = m_y4 = 22;	//1234
+		m_y1 = m_y2 = m_y3 = m_y4 = 21;	//1234
 		m_x1 = 4;						//====
 		m_x2 = 5;
 		m_x3 = 6;
@@ -305,8 +305,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 
 	case 'L':
 		{
-		m_y1 = m_y2 = m_y3 = 21;		//==4=
-		m_y4 = 22;						//123=
+		m_y1 = m_y2 = m_y3 = 20;		//==4=
+		m_y4 = 21;						//123=
 		m_x1 = 4;
 		m_x2 = 5;
 		m_x3 = m_x4 = 6;
@@ -315,8 +315,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 
 	case 'J':
 		{
-		m_y1 = m_y2 = m_y3 = 21;		//=4==
-		m_y4 = 22;						//=321
+		m_y1 = m_y2 = m_y3 = 20;		//=4==
+		m_y4 = 21;						//=321
 		m_x1 = m_x4 = 7;
 		m_x2 = 6;
 		m_x3 = 5;
@@ -325,8 +325,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 
 	case 'S':
 		{
-		m_y1 = m_y2 = 22;				//=21=
-		m_y3 = m_y4 = 21;				//43==
+		m_y1 = m_y2 = 21;				//=21=
+		m_y3 = m_y4 = 20;				//43==
 		m_x1 = 6;
 		m_x2 = m_x3 = 5;
 		m_x4 = 4;
@@ -335,8 +335,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 	
 	case 'Z':
 		{
-		m_y1 = m_y2 = 22;				//=12=
-		m_y3 = m_y4 = 21;				//==34
+		m_y1 = m_y2 = 21;				//=12=
+		m_y3 = m_y4 = 20;				//==34
 		m_x1 = 5;
 		m_x2 = m_x3 = 6;
 		m_x4 = 7;
@@ -345,8 +345,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 	
 	case 'O':
 		{
-		m_y1 = m_y2 = 21;				//=34=
-		m_y3 = m_y4 = 22;				//=12=
+		m_y1 = m_y2 = 20;				//=34=
+		m_y3 = m_y4 = 21;				//=12=
 		m_x1 = m_x3 = 5;
 		m_x2 = m_x4 = 6;
 		break;
@@ -354,8 +354,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 
 	case 'T':	
 		{
-		m_y1 = m_y2 = m_y3 = 22;		//123=
-		m_y4 = 21;						//=4==
+		m_y1 = m_y2 = m_y3 = 21;		//123=
+		m_y4 = 20;						//=4==
 		m_x1 = 4;
 		m_x2 = m_x4 = 5;
 		m_x3 = 6;
@@ -1006,7 +1006,7 @@ void TETRO::rotateRight(ofstream& outFile, GRID * grid)
 }
 //shifts tetro down one row in the grid.
 //if movement down is impossible, triggers lockIn.
-void TETRO::moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)		//Moves tetro down one row
+void TETRO::moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult)		//Moves tetro down one row
 {
 	cout << "begin moveDown\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1032,7 +1032,7 @@ void TETRO::moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, i
 	else
 	{
 		//cout << "moveDown successful";
-		lockIn(outFile, grid, score, lines, level);
+		lockIn(outFile, grid, score, lines, level, scoreMult);
 		reset(outFile, grid);
 		dropIn2(outFile, grid);
 	}
@@ -1102,7 +1102,7 @@ void TETRO::moveRight(ofstream& outFile, GRID * grid)		//Moves tetro right one c
 }
 //drops tetro down in the grid until it hits something.
 //activates lockIn function.
-void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)
+void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult)
 {
 	cout << "begin slamDown\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1123,16 +1123,22 @@ void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, i
 	}
 	
 	cout << "slamDown successful\n";
+
+	//string bottomRow = grid->rowGet(1);
+
 	writeStats(outFile);
 	grid->writeGrid(outFile);
-	lockIn(outFile, grid, score, lines, level);
+	lockIn(outFile, grid, score, lines, level, scoreMult);
 	reset(outFile, grid);
 	dropIn2(outFile, grid);
+	/*for (int i = 0; i <9; i++){
+		grid->m_grid[i][1] = bottomRow.at(i);
+	}*/
 }
 //changes grid array at tetro's currentr position(s).
 //these spots will be treated like the edge
 //of the playing field
-void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)			//Locks the tetro in place when it can't move any further down.
+void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult)			//Locks the tetro in place when it can't move any further down.
 {
 	cout << "begin lockIn\n";
 	grid->m_grid[m_x1][m_y1] = '8';
@@ -1144,7 +1150,8 @@ void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int
 	{
 		if (grid->rowGet(y) == "8888888888")
 		{
-			grid->rowClear(y, score, lines, level);
+			scoreMult +=1;
+			grid->rowClear(y, score, lines, level, scoreMult);
 			grid->rowShift(y);
 		}
 	}

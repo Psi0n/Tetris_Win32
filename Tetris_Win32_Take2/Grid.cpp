@@ -31,16 +31,18 @@ string GRID::rowGet(int rowNum)
 	}
 	return row;
 }
+
 //clears a given row of the grid,
 //then triggers rowShift
-void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
+void GRID::rowClear (int rowNum, int * score, int * lines, int * level, int * scoreMult)
 {
+	cout << "Clearing rows...\n";
 	for (int i = 0; i < 10; i++)
 		{
 		m_grid[i][rowNum] = '=';
 		}
 	rowShift(rowNum);
-	*score += 10;
+	*score += (*scoreMult * 10);
 	*lines++;
 
 	int levelTest = *level;
@@ -49,7 +51,9 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 
 	if (levelTest == 0)
 		{*level += 1;}
+	cout << "Rows cleared. score: " << *score << "\n";
 }
+
 //moves everything above a certain level
 //down a row
 void GRID::rowShift (int rowNum)
@@ -74,6 +78,7 @@ bool GRID::lossCheck(void)
 	else
 		{return false;}
 }
+
 //prints the grid array to console.
 //not recommended for use.
 //will probably delete later.
@@ -86,6 +91,7 @@ void GRID::printGrid(void)
 		cout << rowGot << endl;
 	}
 }
+
 //write grid array to a file.
 void GRID::writeGrid(ofstream& outFile)
 {

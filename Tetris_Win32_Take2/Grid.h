@@ -17,6 +17,7 @@
 	0|_ _ _ _ _
 	  0 1 2 3 4
 */
+
 #ifndef GRID_H
 #define GRID_H
 #include <cstring>
@@ -30,7 +31,7 @@ public:
 	char m_grid[GRID_WIDTH][GRID_HEIGHT];
 	GRID(void);
 	string rowGet(int rowNum);
-	void rowClear (int rowNum, int * score, int * lines, int * level);
+	void rowClear (int rowNum, int * score, int * lines, int * level, int * scoreMult);
 	void rowShift (int rowNum);
 	bool lossCheck (void);
 	void printGrid (void);
