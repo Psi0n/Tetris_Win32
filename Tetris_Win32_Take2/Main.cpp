@@ -47,12 +47,10 @@ BOOL bQuit = FALSE;
 ofstream outFile;
 
 int scoreNum, linesNum, levelNum = 0;
-int scoreMulti = 1;
 
 int * pScore = &scoreNum;
 int * pLines = &linesNum;
 int * pLevel = &levelNum;
-int * pMulti = &scoreMulti;
 
 GRID grid;
 GRID * pGrid = &grid;
@@ -229,7 +227,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch(message)
 	{
 	case WM_TIMER:
-		tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel, pMulti);
+		tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_KEYDOWN:
@@ -241,7 +239,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_NUMPAD2:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel, pMulti);
+			tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel);
 			break;
 		case VK_NUMPAD3:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
@@ -253,7 +251,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_NUMPAD5:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.slamDown(outFile, pGrid, pScore, pLines, pLevel, pMulti);
+			tetro.slamDown(outFile, pGrid, pScore, pLines, pLevel);
 			break;
 		case VK_NUMPAD6:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);

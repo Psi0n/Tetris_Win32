@@ -34,7 +34,7 @@ string GRID::rowGet(int rowNum)
 
 //clears a given row of the grid,
 //then triggers rowShift
-void GRID::rowClear (int rowNum, int * score, int * lines, int * level, int * scoreMult)
+void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 {
 	cout << "Clearing rows...\n";
 	for (int i = 0; i < 10; i++)
@@ -42,7 +42,7 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level, int * sc
 		m_grid[i][rowNum] = '=';
 		}
 	rowShift(rowNum);
-	*score += (*scoreMult * 10);
+
 	*lines++;
 
 	int levelTest = *level;
@@ -58,7 +58,7 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level, int * sc
 //down a row
 void GRID::rowShift (int rowNum)
 {
-	for (int j = rowNum; j < 10; j++)
+	for (int j = rowNum + 1; j < 20; j++)
 	{
 		for (int i = 0; i < 10; i++)
 		{

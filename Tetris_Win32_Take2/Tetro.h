@@ -33,11 +33,11 @@ public:
 	void dropIn2(ofstream& outFile, GRID * grid);
 	void rotateLeft(ofstream& outFile, GRID * grid);
 	void rotateRight(ofstream& outFile, GRID * grid);
-	void moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult);
+	void moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level);
 	void moveLeft(ofstream& outFile, GRID * grid);
 	void moveRight(ofstream& outFile, GRID * grid);
-	void slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult);
-	void lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult);
+	void slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level);
+	void lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level);
 	void shiftUp(void);//not currently used
 	void printStats(void);
 	void writeStats(ofstream& outFile);

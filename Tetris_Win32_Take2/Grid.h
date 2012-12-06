@@ -31,7 +31,7 @@ public:
 	char m_grid[GRID_WIDTH][GRID_HEIGHT];
 	GRID(void);
 	string rowGet(int rowNum);
-	void rowClear (int rowNum, int * score, int * lines, int * level, int * scoreMult);
+	void rowClear (int rowNum, int * score, int * lines, int * level);
 	void rowShift (int rowNum);
 	bool lossCheck (void);
 	void printGrid (void);

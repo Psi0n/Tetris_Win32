@@ -1006,7 +1006,7 @@ void TETRO::rotateRight(ofstream& outFile, GRID * grid)
 }
 //shifts tetro down one row in the grid.
 //if movement down is impossible, triggers lockIn.
-void TETRO::moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult)		//Moves tetro down one row
+void TETRO::moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)		//Moves tetro down one row
 {
 	cout << "begin moveDown\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1032,7 +1032,7 @@ void TETRO::moveDown(ofstream& outFile, GRID * grid, int * score, int * lines, i
 	else
 	{
 		//cout << "moveDown successful";
-		lockIn(outFile, grid, score, lines, level, scoreMult);
+		lockIn(outFile, grid, score, lines, level);
 		reset(outFile, grid);
 		dropIn2(outFile, grid);
 	}
@@ -1102,7 +1102,7 @@ void TETRO::moveRight(ofstream& outFile, GRID * grid)		//Moves tetro right one c
 }
 //drops tetro down in the grid until it hits something.
 //activates lockIn function.
-void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult)
+void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)
 {
 	cout << "begin slamDown\n";
 	grid->m_grid[m_x1][m_y1] = '=';
@@ -1128,7 +1128,7 @@ void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, i
 
 	writeStats(outFile);
 	grid->writeGrid(outFile);
-	lockIn(outFile, grid, score, lines, level, scoreMult);
+	lockIn(outFile, grid, score, lines, level);
 	reset(outFile, grid);
 	dropIn2(outFile, grid);
 	/*for (int i = 0; i <9; i++){
@@ -1138,7 +1138,7 @@ void TETRO::slamDown(ofstream& outFile, GRID * grid, int * score, int * lines, i
 //changes grid array at tetro's currentr position(s).
 //these spots will be treated like the edge
 //of the playing field
-void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level, int * scoreMult)			//Locks the tetro in place when it can't move any further down.
+void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int * level)			//Locks the tetro in place when it can't move any further down.
 {
 	cout << "begin lockIn\n";
 	grid->m_grid[m_x1][m_y1] = '8';
@@ -1146,12 +1146,28 @@ void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int
 	grid->m_grid[m_x3][m_y3] = '8';
 	grid->m_grid[m_x4][m_y4] = '8';
 
-	for (int y = 1; y < 21; y++)
+	int numCleared = 0;
+	for (int y = 0; y < 21; y++)
 	{
 		if (grid->rowGet(y) == "8888888888")
 		{
-			scoreMult +=1;
-			grid->rowClear(y, score, lines, level, scoreMult);
+			numCleared +=1;
+			grid->rowClear(y, score, lines, level);
+			switch(numCleared)
+			{
+			case 1:
+				*score += ((*level + 1) * 40);
+				break;
+			case 2:
+				*score += ((*level + 1) * 100);
+				break;
+			case 3:
+				*score += ((*level + 1) * 300);
+				break;
+			case 4:
+				*score += ((*level + 1) * 1200);
+				break;
+	}
 			grid->rowShift(y);
 		}
 	}
