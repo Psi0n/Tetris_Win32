@@ -60,8 +60,14 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 //down a row
 void GRID::rowShift (int rowNum)
 {
+	string row;
 	for (int j = rowNum + 1; j < 21; j++)
 	{
+		row = rowGet(j);2
+		if (row.compare("==========") == 0){
+			cout << "loop broken\n";
+			break;}
+
 		printGrid();
 		system("pause");
 		for (int i = 0; i < 10; i++)

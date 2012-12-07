@@ -177,6 +177,8 @@ void TETRO::reset(ofstream& outFile, GRID * grid)
 	}
 	m_rot =1;
 	cout << "reset successful\n";
+	grid->printGrid();
+	system("pause");
 	printStats();
 	grid->writeGrid(outFile);
 }
@@ -367,6 +369,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 	grid->m_grid[m_x3][m_y3] = '1';
 	grid->m_grid[m_x4][m_y4] = '1';
 	cout << "dropIn2 successful\n";
+	grid->printGrid();
+	system("pause");
 	printStats();
 	grid->writeGrid(outFile);
 	grid->printGrid();
@@ -1175,6 +1179,8 @@ void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int
 	}
 	cout << "lockIn successful\n";
 	printStats();
+	grid->printGrid();
+	system("pause");
 	grid->writeGrid(outFile);
 }
 //leftover function, meant to be used by dropIn.
