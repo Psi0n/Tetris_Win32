@@ -8,7 +8,7 @@
 	the queue area to the side of the main playing field.
 
 	I know the way it's implemented looks odd, and the mountain of
-	minor calculations aredefinitely a pain to deal with, but it's
+	minor calculations are definitely a pain to deal with, but it's
 	working, and this way I can easily break the tetrominoes apart
 	when lines get completed and cleared by the grid.
 */

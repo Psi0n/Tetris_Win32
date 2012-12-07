@@ -369,6 +369,8 @@ void TETRO::dropIn2(ofstream& outFile, GRID * grid)
 	cout << "dropIn2 successful\n";
 	printStats();
 	grid->writeGrid(outFile);
+	grid->printGrid();
+	system("pause");
 }
 //should rotate tetro counterclockwise,
 //but no guarantees at the moment.

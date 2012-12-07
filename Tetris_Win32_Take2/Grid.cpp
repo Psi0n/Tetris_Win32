@@ -33,7 +33,9 @@ string GRID::rowGet(int rowNum)
 }
 
 //clears a given row of the grid,
-//then triggers rowShift
+//then triggers rowShift.
+//should also check lines cleared
+//and increment level by 1 for every 10.
 void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 {
 	cout << "Clearing rows...\n";
@@ -45,7 +47,7 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 
 	*lines++;
 
-	int levelTest = *level;
+	int levelTest = *lines;
 	while(levelTest > 0)
 		{levelTest -= 10;}
 
@@ -58,12 +60,16 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 //down a row
 void GRID::rowShift (int rowNum)
 {
-	for (int j = rowNum + 1; j < 20; j++)
+	for (int j = rowNum + 1; j < 21; j++)
 	{
+		printGrid();
+		system("pause");
 		for (int i = 0; i < 10; i++)
 		{
 			m_grid[i][j-1] = m_grid[i][j];
 			m_grid[i][j] = '=';
+			printGrid();
+			system("pause");
 		}
 	}
 }

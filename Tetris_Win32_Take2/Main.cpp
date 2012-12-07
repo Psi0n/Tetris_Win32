@@ -27,6 +27,7 @@ using namespace std;
 #include "Grid.h"
 #include "Tetro.h"
 #include "Resource.h"
+#include "CBuffer.h"
 
 void OnPaint(HWND hWnd, HDC hdc);
 
@@ -153,11 +154,14 @@ void OnPaint(HWND hWnd, HDC hdc){
 	tetro.printStats();
 	//grid.printGrid();
 
+	CBuffer back_buffer = CBuffer(hdc, 705, 737);
+	HDC backBufferDC = back_buffer.GetBufferDC();
+
 	RECT rect1;
 	GetClientRect(hWnd, &rect1);
 	FillRect(hdc, &rect1, hBrush);
 	
-	Graphics graphics(hdc);
+	Graphics graphics(backBufferDC);
 	
 	Image bGround(L"Back.bmp");
 	Image lockedBlock(L"LockedBlock.bmp");
@@ -170,16 +174,14 @@ void OnPaint(HWND hWnd, HDC hdc){
 	TCHAR linesText[] = _T("LINES");
 	
 	HFONT font;
-	HDC MemDC;
 
 	//get window dimensions
 	GetClientRect(hWnd, &rect2);
 	//create screen-sized bmp
-	MemDC = CreateCompatibleDC(hdc);
 	HBITMAP Membmp = CreateCompatibleBitmap(hdc, rect2.right, rect2.bottom);
 	//create a temp graphics obj
-	SelectObject(MemDC, Membmp);
-	Graphics graph(MemDC);
+	SelectObject(backBufferDC, Membmp);
+	Graphics graph(backBufferDC);
 	SolidBrush blackbrush(Color(0, 0, 0));
 	
 	graph.FillRectangle(&blackbrush, rect2.left, rect2.top, rect2.right, rect2.bottom);
@@ -199,24 +201,27 @@ void OnPaint(HWND hWnd, HDC hdc){
 	font = CreateFont(32, 32, 0, 0, FW_MEDIUM, FALSE, FALSE, FALSE,  ANSI_CHARSET,
 			OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
 			DEFAULT_PITCH | FF_MODERN, _T("OCR A Extended"));
-		SelectObject(MemDC, font);
+		SelectObject(backBufferDC, font);
 
-		SetTextColor(MemDC, clrGray);
-		SetBkColor(MemDC, clrBlack);
+		SetTextColor(backBufferDC, clrGray);
+		SetBkColor(backBufferDC, clrBlack);
 
 		//still need to add numbers under these three
-		TextOut(MemDC, 448,  32, scoreText, _tcslen(scoreText));
-		TextOut(MemDC, 448, 128, levelText, _tcslen(levelText));
-		TextOut(MemDC, 448, 224, linesText, _tcslen(linesText));
+		TextOut(backBufferDC, 448,  32, scoreText, _tcslen(scoreText));
+		TextOut(backBufferDC, 448, 128, levelText, _tcslen(levelText));
+		TextOut(backBufferDC, 448, 224, linesText, _tcslen(linesText));
 
 		//copy bits
-		BitBlt(hdc, 0, 0, 704, 704, MemDC, 0, 0, SRCCOPY);
+		BitBlt(hdc, 0, 0, 704, 704, backBufferDC, 0, 0, SRCCOPY);
 
 		//restore old
-		DeleteDC(MemDC);
+		DeleteDC(backBufferDC);
 		DeleteObject(Membmp);
 
 		cout << "painting done\n";
+
+		back_buffer.Paint(hdc);
+		back_buffer.Cleanup();
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
