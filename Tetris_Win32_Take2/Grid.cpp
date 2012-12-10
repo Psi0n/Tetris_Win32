@@ -12,9 +12,9 @@ using namespace std;
 //constructor
 GRID::GRID(void)
 {
-	for (int x = 0; x < GRID_WIDTH; x++)
+	for (int x = 0; x < 18; x++)
 	{
-		for (int y = 0; y < GRID_HEIGHT; y++)
+		for (int y = 0; y < 22; y++)
 		{
 			m_grid[x][y] = '=';
 		}
@@ -36,14 +36,14 @@ string GRID::rowGet(int rowNum)
 //then triggers rowShift.
 //should also check lines cleared
 //and increment level by 1 for every 10.
-void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
+void GRID::rowClear (int rowNum, int * score, int * lines, int * level, char * pTempGrid)
 {
 	cout << "Clearing rows...\n";
 	for (int i = 0; i < 10; i++)
 		{
 		m_grid[i][rowNum] = '=';
 		}
-	rowShift(rowNum);
+	rowShift(rowNum, pTempGrid);
 
 	*lines++;
 
@@ -58,14 +58,15 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 
 //moves everything above a certain level
 //down a row
-void GRID::rowShift (int rowNum)
+void GRID::rowShift (int rowNum, char * pTempGrid)
 {
 	string row;
 	for (int j = rowNum + 1; j < 21; j++)
 	{
-		row = rowGet(j);2
+		row = rowGet(j);
 		if (row.compare("==========") == 0){
 			cout << "loop broken\n";
+			*pTempGrid = m_grid;
 			break;}
 
 		printGrid();
@@ -97,18 +98,18 @@ bool GRID::lossCheck(void)
 void GRID::printGrid(void)
 {
 	string rowGot;
-	for (int i = 0; i < 23; i++)
+	for (int i = 23; i >= 0; i -= 1)
 	{
 		rowGot = rowGet(i);
 		cout << rowGot << endl;
 	}
 }
 
-//write grid array to a file.
+//write grid array to a file. unused
 void GRID::writeGrid(ofstream& outFile)
 {
 	string rowGot;
-	for (int i = 0; i < 23; i++)
+	for (int i = 23; i >= 0; i -= 1)
 	{
 		rowGot = rowGet(i);
 		outFile << rowGot << "\n";

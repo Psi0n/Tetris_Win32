@@ -22,19 +22,17 @@
 #define GRID_H
 #include <cstring>
 #include <fstream>
-#define GRID_WIDTH 18
-#define GRID_HEIGHT 22
 
 class GRID
 {
 public:
-	char m_grid[GRID_WIDTH][GRID_HEIGHT];
+	char m_grid[18][22];
 	GRID(void);
 	string rowGet(int rowNum);
-	void rowClear (int rowNum, int * score, int * lines, int * level);
-	void rowShift (int rowNum);
+	void rowClear (int rowNum, int * score, int * lines, int * level, char * pTempGrid);
+	void rowShift (int rowNum, char * pTempGrid);
 	bool lossCheck (void);
 	void printGrid (void);
-	void writeGrid (ofstream& outFile);
+	void writeGrid (ofstream& outFile); //unused
 };
 #endif
