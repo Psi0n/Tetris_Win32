@@ -55,12 +55,8 @@ int * pLevel = &levelNum;
 
 GRID grid;
 GRID * pGrid = &grid;
-char tempGrid[18][22];
-char * pTempGrid = &tempGrid;
 
 TETRO tetro(pGrid);
-
-TETRO * pTetro = &tetro;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -133,7 +129,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	UpdateWindow(hWnd);
 
 	MSG msg;
-	tetro.dropIn2(outFile, pGrid);
+	/*while (grid.lossCheck() == true)
+	{
+	TETRO tetro(pGrid);
+	}*/
 	
 	while (!bQuit)
 	{
@@ -194,9 +193,9 @@ void OnPaint(HWND hWnd, HDC hdc){
 		for (int yCoord = 0; yCoord < 21; yCoord++)
 		{
 			if (pGrid->m_grid[xCoord][yCoord] == '8')
-			{graph.DrawImage(&lockedBlock, ((xCoord * 32 + 64)), ((608 - (32 * yCoord))), 32, 32);}
+			{graph.DrawImage(&lockedBlock, ((xCoord * 32 + 64)), ((608 - (32 * (yCoord - 1)))), 32, 32);}
 			else if (pGrid->m_grid[xCoord][yCoord] == '1')
-			{graph.DrawImage(&tetroBlock, ((xCoord * 32 + 64)), ((608 - (32 * yCoord))), 32, 32);}
+			{graph.DrawImage(&tetroBlock, ((xCoord * 32 + 64)), ((608 - (32 * (yCoord - 1)))), 32, 32);}
 		}
 	}
 	
@@ -234,7 +233,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch(message)
 	{
 	case WM_TIMER:
-		tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel, pTempGrid);
+		tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_KEYDOWN:
@@ -246,7 +245,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_NUMPAD2:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel, pTempGrid);
+			tetro.moveDown(outFile, pGrid, pScore, pLines, pLevel);
 			break;
 		case VK_NUMPAD3:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
@@ -258,7 +257,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_NUMPAD5:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);
-			tetro.slamDown(outFile, pGrid, pScore, pLines, pLevel, pTempGrid);
+			tetro.slamDown(outFile, pGrid, pScore, pLines, pLevel);
 			break;
 		case VK_NUMPAD6:
 			//timer_id = SetTimer( hWnd, 101, 1 *2000, NULL);

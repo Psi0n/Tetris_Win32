@@ -26,11 +26,11 @@
 class GRID
 {
 public:
-	char m_grid[18][22];
+	char m_grid[18][24];
 	GRID(void);
 	string rowGet(int rowNum);
-	void rowClear (int rowNum, int * score, int * lines, int * level, char * pTempGrid);
-	void rowShift (int rowNum, char * pTempGrid);
+	void rowClear (int rowNum, int * score, int * lines, int * level);
+	void rowShift (int rowNum);
 	bool lossCheck (void);
 	void printGrid (void);
 	void writeGrid (ofstream& outFile); //unused
