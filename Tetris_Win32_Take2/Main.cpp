@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace Gdiplus;
 using namespace std;
@@ -173,6 +174,7 @@ void OnPaint(HWND hWnd, HDC hdc){
 	TCHAR scoreText[] = _T("SCORE");
 	TCHAR levelText[] = _T("LEVEL");
 	TCHAR linesText[] = _T("LINES");
+	TCHAR buff[6];
 	
 	HFONT font;
 
@@ -207,10 +209,15 @@ void OnPaint(HWND hWnd, HDC hdc){
 		SetTextColor(backBufferDC, clrGray);
 		SetBkColor(backBufferDC, clrBlack);
 
-		//still need to add numbers under these three
+
 		TextOut(backBufferDC, 448,  32, scoreText, _tcslen(scoreText));
+		TextOut(backBufferDC, 448,  64, buff, wsprintf(buff, TEXT("%d"),scoreNum));
+
 		TextOut(backBufferDC, 448, 128, levelText, _tcslen(levelText));
+		TextOut(backBufferDC, 448, 160, buff, wsprintf(buff, TEXT("%d"),levelNum));
+
 		TextOut(backBufferDC, 448, 224, linesText, _tcslen(linesText));
+		TextOut(backBufferDC, 448, 256, buff, wsprintf(buff, TEXT("%d"),linesNum));
 
 		//copy bits
 		BitBlt(hdc, 0, 0, 704, 704, backBufferDC, 0, 0, SRCCOPY);

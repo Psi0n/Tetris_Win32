@@ -69,7 +69,7 @@ void GRID::rowShift (int rowNum)
 			break;}
 
 		printGrid();
-		system("pause");
+		//system("pause");
 		for (int i = 0; i < 10; i++)
 		{
 			m_grid[i][j-1] = m_grid[i][j];

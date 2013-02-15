@@ -1021,7 +1021,7 @@ void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int
 	printStats();
 	reset(outFile, grid);
 	//grid->printGrid();
-	//system("pause");
+	////system("pause");
 	//grid->writeGrid(outFile);
 }
 //outputs current coordinates of tetro to console.
