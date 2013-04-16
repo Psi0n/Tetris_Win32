@@ -45,14 +45,11 @@ void GRID::rowClear (int rowNum, int * score, int * lines, int * level)
 		}
 	rowShift(rowNum);
 
-	*lines++;
+	cout << *lines << "lines" << endl;
+	system("pause");
+	if (*lines % 10 == 0){
+		*level += 1;}
 
-	int levelTest = *lines;
-	while(levelTest > 0)
-		{levelTest -= 10;}
-
-	if (levelTest == 0)
-		{*level += 1;}
 	cout << "Rows cleared. score: " << *score << "\n";
 }
 

@@ -1017,6 +1017,7 @@ void TETRO::lockIn(ofstream& outFile, GRID * grid, int * score, int * lines, int
 			grid->rowShift(y);
 		}
 	}
+	*lines += numCleared;
 	cout << "lockIn successful\n";
 	printStats();
 	reset(outFile, grid);
